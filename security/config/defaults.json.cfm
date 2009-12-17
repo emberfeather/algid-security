@@ -7,6 +7,7 @@
 	},
 	"requestTransients": {
 	},
+	"resetSessionOnIPChange" = true,
 	"sessionSingletons": {
 	},
 	"sessionTransients": {
