@@ -12,5 +12,4 @@
 	<cfset this.mappings['/mxunit'] = variables.mappingBase & 'mxunit' />
 	<cfset this.mappings['/plugins'] = variables.mappingBase />
 	<cfset this.mappings['/test'] = variables.mappingBase & 'test' />
-	<cfset this.mappings['/varscoper'] = variables.mappingBase & 'varscoper' />
 </cfcomponent>
