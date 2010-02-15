@@ -1,3 +1,6 @@
 .project
+build/logs/
+build/settings/user.properties
+dist/
 security/config/settings.json.cfm
 security/config/version.json.cfm
