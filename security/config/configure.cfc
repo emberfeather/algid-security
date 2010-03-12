@@ -10,6 +10,7 @@
 		<cfset var eventLog = '' />
 		<cfset var lastIP = '' />
 		<cfset var objSession = '' />
+		<cfset var observer = '' />
 		<cfset var resetSessionOnIPChange = '' />
 		
 		<!--- Get the setting for the session reset on IP change --->
@@ -27,11 +28,11 @@
 				<!--- If no previous IP, store the current one --->
 				<cfset objSession.setIPAddress(cgi.remote_addr) />
 			<cfelseif lastIP neq cgi.remote_addr>
-				<!--- Get the event log --->
-				<cfset eventLog = arguments.theApplication.managers.singleton.getEventLog() />
+				<!--- Get the event observer --->
+				<cfset observer = getPluginObserver('security', 'security') />
 				
-				<!--- Log the successful login event --->
-				<cfset eventLog.logEvent('security', 'ipChanged', 'IP address changed from ''' & lastIP & ''' to ''' & cgi.remote_addr & '''.') />
+				<!--- IP Change Event --->
+				<cfset observer.onIpChange(variables.transport, lastIP, cgi.remote_addr) />
 				
 				<!--- The IP addresses to not match, reset the session --->
 				<cfset arguments.theSession.sparkplug = createObject('component', 'algid.inc.resource.session.sparkplug').init() />
