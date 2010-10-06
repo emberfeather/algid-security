@@ -1,7 +1,6 @@
 <cfcomponent extends="algid.inc.resource.base.event" output="false">
 <cfscript>
-	/* required content */
-	public void function onIPChange( struct transport, string lastIP, string remote_addr ) {
+	public void function onIPChange( required struct transport, required string lastIP, required string remote_addr ) {
 		var eventLog = '';
 		
 		// Get the event log from the transport
