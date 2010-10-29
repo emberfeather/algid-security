@@ -1,51 +1,44 @@
-<cfcomponent extends="algid.inc.resource.plugin.configure" output="false">
-	<cffunction name="onRequestStart" access="public" returntype="void" output="false">
-		<cfargument name="theApplication" type="struct" required="true" />
-		<cfargument name="theSession" type="struct" required="true" />
-		<cfargument name="theRequest" type="struct" required="true" />
-		<cfargument name="theUrl" type="struct" required="true" />
-		<cfargument name="theForm" type="struct" required="true" />
-		<cfargument name="targetPage" type="string" required="true" />
+component extends="algid.inc.resource.plugin.configure" {
+	public void function onRequestStart(required struct theApplication, required struct theSession, required struct theRequest, required struct theUrl, required struct theForm, required string targetPage) {
+		var eventLog = '';
+		var lastIP = '';
+		var objSession = '';
+		var observer = '';
+		var resetSessionOnIPChange = '';
 		
-		<cfset var eventLog = '' />
-		<cfset var lastIP = '' />
-		<cfset var objSession = '' />
-		<cfset var observer = '' />
-		<cfset var resetSessionOnIPChange = '' />
+		// Get the setting for the session reset on IP change
+		resetSessionOnIPChange = arguments.theApplication.managers.plugin.getSecurity().getResetSessionOnIPChange();
 		
-		<!--- Get the setting for the session reset on IP change --->
-		<cfset resetSessionOnIPChange = arguments.theApplication.managers.plugin.getSecurity().getResetSessionOnIPChange() />
-		
-		<!--- Check for a change in the ip address --->
-		<cfif resetSessionOnIPChange>
-			<!--- Get the session object --->
-			<cfset objSession = arguments.theSession.managers.singleton.getSession() />
+		// Check for a change in the ip address
+		if (resetSessionOnIPChange) {
+			// Get the session object
+			objSession = arguments.theSession.managers.singleton.getSession();
 			
-			<!--- Check if we already have a ipAddress stored --->
-			<cfset lastIP = objSession.getIPAddress() />
+			// Check if we already have a ipAddress stored
+			lastIP = objSession.getIPAddress();
 			
-			<cfif lastIP eq ''>
-				<!--- If no previous IP, store the current one --->
-				<cfset objSession.setIPAddress(cgi.remote_addr) />
-			<cfelseif lastIP neq cgi.remote_addr>
-				<!--- Get the event observer --->
-				<cfset observer = getPluginObserver('security', 'security') />
+			if (lastIP eq '') {
+				// If no previous IP, store the current one
+				objSession.setIPAddress(cgi.remote_addr);
+			} else if (lastIP neq cgi.remote_addr) {
+				// Get the event observer
+				observer = getPluginObserver('security', 'security');
 				
-				<!--- IP Change Event --->
-				<cfset observer.onIpChange(variables.transport, lastIP, cgi.remote_addr) />
+				// IP Change Event
+				observer.onIpChange(variables.transport, lastIP, cgi.remote_addr);
 				
-				<!--- The IP addresses to not match, reset the session --->
-				<cfset arguments.theSession.sparkplug = createObject('component', 'algid.inc.resource.session.sparkplug').init() />
+				// The IP addresses to not match, reset the session
+				arguments.theSession.sparkplug = createObject('component', 'algid.inc.resource.session.sparkplug').init();
 				
-				<!--- Start the session --->
-				<cfset arguments.theSession.sparkplug.start( arguments.theApplication, arguments.theSession ) />
+				// Start the session
+				arguments.theSession.sparkplug.start( arguments.theApplication, arguments.theSession );
 				
-				<!--- Get the new session object --->
-				<cfset objSession = arguments.theSession.managers.singleton.getSession() />
+				// Get the new session object
+				objSession = arguments.theSession.managers.singleton.getSession();
 				
-				<!--- Store the new IP --->
-				<cfset objSession.setIPAddress(cgi.remote_addr) />
-			</cfif>
-		</cfif>
-	</cffunction>
-</cfcomponent>
+				// Store the new IP
+				objSession.setIPAddress(cgi.remote_addr);
+			}
+		}
+	}
+}
