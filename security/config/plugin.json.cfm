@@ -10,6 +10,7 @@
 		]
 	},
 	"key": "security",
+	"plugin": "Security",
 	"prerequisites": {
 	},
 	"requestSingletons": {
