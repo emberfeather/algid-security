@@ -12,6 +12,7 @@
 	"key": "security",
 	"plugin": "Security",
 	"prerequisites": {
+		"algid": "0.1.3"
 	},
 	"requestSingletons": {
 	},
