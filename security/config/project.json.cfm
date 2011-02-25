@@ -1,5 +1,6 @@
 {
 	"applicationSingletons": {
+		"bcrypt": "plugins.security.inc.resource.encryption.bcrypt"
 	},
 	"applicationTransients": {
 	},
