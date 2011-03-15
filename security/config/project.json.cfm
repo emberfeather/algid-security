@@ -1,5 +1,6 @@
 {
 	"applicationSingletons": {
+		"bcrypt": "plugins.security.inc.resource.encryption.bcrypt"
 	},
 	"applicationTransients": {
 	},
@@ -12,6 +13,7 @@
 	"key": "security",
 	"plugin": "Security",
 	"prerequisites": {
+		"algid": "0.1.3"
 	},
 	"requestSingletons": {
 	},
