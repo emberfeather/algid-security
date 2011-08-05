@@ -1,8 +1,8 @@
 {
-	"archive": "http://github.com/emberfeather/algid-security/tarball/0.1.1",
+	"archive": "http://github.com/emberfeather/algid-security/tarball/0.1.2",
 	"key": "security",
 	"releaseNotes": "http://github.com/emberfeather/algid-security/wiki/Release-Notes",
 	"title": "Security",
 	"URL": "http://github.com/emberfeather/algid-security",
-	"version": "0.1.1"
+	"version": "0.1.2"
 }
