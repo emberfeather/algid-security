@@ -21,8 +21,10 @@ component extends="algid.inc.resource.plugin.configure" {
 				// If no previous IP, store the current one
 				objSession.setIPAddress(cgi.remote_addr);
 			} else if (lastIP neq cgi.remote_addr) {
-				// Get the event observer
-				observer = getPluginObserver('security', 'security');
+				local.plugin = arguments.theApplication.managers.plugin.get('security');
+				
+				// Get the specific observer
+				observer = local.plugin.getObserver().get('security');
 				
 				// IP Change Event
 				observer.onIpChange(variables.transport, lastIP, cgi.remote_addr);
