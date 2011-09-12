@@ -27,7 +27,7 @@ component extends="algid.inc.resource.plugin.configure" {
 				observer = local.plugin.getObserver().get('security');
 				
 				// IP Change Event
-				observer.onIpChange(variables.transport, lastIP, cgi.remote_addr);
+				observer.onIpChange(arguments, lastIP, cgi.remote_addr);
 				
 				// The IP addresses to not match, reset the session
 				arguments.theSession.sparkplug = createObject('component', 'algid.inc.resource.session.sparkplug').init();
